@@ -7,7 +7,6 @@ const notion = new Client({ auth: process.env.NOTION_TOKEN})
 //--------------------///
 async function getDatabase(){
     const response = await notion.databases.retrieve({
-
         database_id: process.env.NOTION_DATABASE_ID,
     })
     const tagss = [process.env.NOTION_TAGS_ID]

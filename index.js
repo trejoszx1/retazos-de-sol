@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const routerApi = require('./router');
+const morgan = require('morgan');
 
 
 
@@ -13,8 +14,9 @@ const port = process.env.PORT || 3000;
 //middleware
 
 app.use(express.json());
+app.use(morgan("dev"));
 
-const whitelist = ['http://localhost:8080', 'https://mayapp.co']; //abilita acceso de otros arigenes de cors
+const whitelist = ['http://localhost:9000', 'https://mayapp.co', 'http://192.168.1.100:9000','http://localhost','http://192.168.1.137']; //abilita acceso de otros arigenes de cors
 const options = {
   origin: (origin, callback) => {
     if (whitelist.includes(origin) || !origin ) {
@@ -37,8 +39,7 @@ app.use(boomErrorHandler);
 app.use(errorHandler);
 
 
-
-
+require("./controllers/orchestrator/index")
 
 
 app.listen(port, () => {

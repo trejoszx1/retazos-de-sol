@@ -10,11 +10,11 @@ async function getUsers(){
 
 }
 
-const {Conf} = require('./config')
+//const {Conf} = require('./config')
 
 
 
-console.log(Conf.database_products)
+//console.log(Conf.database_products)
 
 ///
 
@@ -261,7 +261,7 @@ async function getSuggestion(pageId) {
 //  const pages = await notion.pages.properties.retrieve({page_id: pageId});
 //  console.log(pages)
 //}
-
+getSuggestions()
 module.exports = {
   createSuggestion,
   getTags,
