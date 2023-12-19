@@ -1,129 +1,21 @@
-const boom = require('@hapi/boom');
 
-const moment = require('moment');
+
+const Collections = require('./collections.service')
+const Garments = require('./garments.service')
+
+
+
 
 const { models } = require('./../../../libs/sequelize');
 
 
-const {
-  readPath,
-  createPath,
-  createDir,
-
-} = require('../../../controllers/fs/fsUtil');
 const short = require('short-uuid');
 const shortUUID = require('uuid');
 const translator = short();
 const newId = translator.uuid();
 
-const formatDate = 'YYYY-MM-DD HH:MM:SS';
-const now = moment();
-
-
 
 class Publishing {}
-
-class Garments {
-  constructor() {
-    this.id = newId;
-    this.idInstagram = '';
-    this.state = 'Edition';
-    this.numberOfPublication = null;
-    this.imagesPath = [] |'';
-    this.folderPath = '';
-    this.ReadyForPublication = false;
-    this.dateOfpublication = '';
-    //this.createdAt = now.format(formatDate);
-    this.descriptions = '';
-  }
-
-  async create({ item }) {
-    const folderPath = `Prenda--${this.createdAt}-${this.id}`;
-    const data = {
-      id: this.id,
-      folderPath: await createDir(`${item.CollectionPath}/${folderPath}`),
-      idInstagram: this.idInstagram,
-      state: this.state,
-      numberOfPublication: this.numberOfPublication,
-      imagesPath: this.imagesPath,
-      ReadyForPublication: this.ReadyForPublication,
-      dateOfpublication: item.dateOfPublication | '',
-      //dateCreate: this.dateCreate,
-      descriptions: item.descriptions | '',
-    }
-    console.log('DATA= ',data)
-
-    return data
-
-  }
-  serachByID({ id }) {
-    return data.find((item) => item.garmentsIds.id === id);
-  }
-}
-
-class Collections {
-  constructor() {
-    //this.id = newId;
-    this.nameOfCollection = '';
-    this.garmentsIds = [];
-    this.dateCreate = now.format(formatDate);
-    this.dateOfPublication = '';
-    this.state = 'Edition';
-    this.pathOfCollection = [];
-  }
-  async find(){
-    const rta = await models.Collection.findAll({
-      include: ['garments']
-    });
-    return rta;
-  }
-
-//* check the connection with the database *//
-  async create({ item }) {
-    try {
-      const numberWeek = now.isoWeekday();
-      const CollectionPath = `Coleccion--${numberWeek}--${this.dateCreate}-${this.id}`;
-      const routePath = await createDir(`./uploads/${CollectionPath}`);
-      const data= {
-        //id: this.id,
-        nameOfCollection: item.nameOfCollection | this.nameOfCollection,
-        //garmentsIds: this.garmentsIds,
-        //dateCreate: this.dateCreate,
-        dateOfPublication: this.dateOfPublication,
-        //state: this.state,
-        //pathOfCollection: routePath ,
-        collectionId: ''
-      }
-
-      return data
-    } catch (error) {
-      return error;
-    }
-  }
-
-  serachByID({ id }) {
-    return data.find((item) => item.id === id);
-  }
-
-
-  update({item, id}){
-    const colection = this.serachByID({id})
-     colection.garmentsIds.push(item)
-     return data
-
-  }
-
-  createGarments({ item , id}) {
-    const CreatePrendaColection = new Garments();
-    const garment = CreatePrendaColection.create({item ,id });
-    return garment;
-  }
-  garmentSerachByID({ id }) {
-    const searchGarment = new Garments()
-    return searchGarment.serachByID({id})
-  }
-}
-
 
 
 
@@ -139,21 +31,38 @@ const database = async() =>{
   //const result = await models.Garments.create(data)
   //console.log('Resultado',result)
 
-
+  const id = 'db099a9c-7038-44c4-a790-761be7da0385'
 
   const collections = new Collections()
+  //await collections.create({item: {nameOfCollection:'Solsticio'}})
 
-  const data = await collections.create({item: {nameOfCollection:'Solsticio'}})
-  console.log(data)
+  //- syncForFolders -//
+  const folders = await collections.syncForFolders({path:'./uploads'})
+  console.log('Folder = ',folders)
 
 
-  //const result1 = await models.Collection.findAll()
+  //- DELETE -//
+  //const data = await collections.delete({id: id})
+  //console.log(data)
+
+
+  //-   UPDATE    -//
+  //const item ={nameOfCollection: 'Coleccion de diciembre'}
+  //const update = await collections.update({item:item , id:id})
+  //console.log(update)
+
+
+
+  //- FIND -//
+  //const result1 = await collections.find()
   //console.log(result1)
-  const result = await models.Collection.create(data)
-  console.log('Resultado',result)
+
+  //- CREATE -//
+  //const result = await models.Collection.create(data)
+  //console.log('Resultado',result)
 }
 
-//database()
+database()
 
 
 

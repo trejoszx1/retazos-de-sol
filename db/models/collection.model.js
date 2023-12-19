@@ -51,8 +51,8 @@ const CollectionScheme = {
   collectionId: {
     field: 'collection_id',
     type: DataTypes.UUID,
-    allowNull: false,
-    primaryKey: true,
+    allowNull: true,
+    primaryKey: false,
   },
 };
 

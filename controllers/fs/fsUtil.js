@@ -1,6 +1,6 @@
 const { promises } = require('dns');
 const fs = require('fs');
-const { readdir, mkdir,readFile , existsSync, writeFile} = require('node:fs/promises');
+const { readdir, mkdir,readFile , existsSync, writeFile ,rmdir } = require('node:fs/promises');
 
 //const buffer = new Buffer;
 
@@ -21,6 +21,7 @@ const readPath = (path) => {
       if (err) {
         reject(err);
       } else {
+        console.log('DATA',data)
         resolve(data);
       }
     });
@@ -45,7 +46,6 @@ const createPath = (path) => {
 
 const listFiles = async (path) => {
   const files = await readdir(path);
-  console.log(files);
   return files;
 };
 
@@ -63,6 +63,19 @@ const createDir = async (path) => {
 };
 
 
-module.exports = { readfile, readPath,createPath, createDir,  };
+const removeDir = async (path)=>{
+  return await rmdir(path)
+  .then((dir) => {
+    console.log(dir);
+    return `${path}`;
+  })
+  .catch((error) => {
+    console.log(error);
+    return error;
+  });
+}
+
+
+module.exports = { readfile, listFiles,createPath, createDir,removeDir  };
 
 //createDir('./uploads/news')

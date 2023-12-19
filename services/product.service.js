@@ -22,7 +22,7 @@ class ProductService {
 
   async findOne(id) {
     const product = await models.Product.findByPk(id);
-    if (!user) {
+    if (!product) {
       throw boom.notFound('Product not found');
     }
     return product;
