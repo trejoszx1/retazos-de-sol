@@ -48,12 +48,7 @@ const CollectionScheme = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL',
   },
-  collectionId: {
-    field: 'collection_id',
-    type: DataTypes.UUID,
-    allowNull: true,
-    primaryKey: false,
-  },
+
 };
 
 class Collection extends Model {
@@ -71,3 +66,13 @@ class Collection extends Model {
 }
 
 module.exports = { Collection, CollectionScheme, COLLECTION_TABLE };
+
+
+
+/*  collectionId: {
+    field: 'collection_id',
+    type: DataTypes.UUID,
+    allowNull: true,
+    primaryKey: false,
+  },
+   */

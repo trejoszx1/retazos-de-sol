@@ -1,19 +1,17 @@
 
 const boom = require('@hapi/boom');
 const { models } = require('./../../../libs/sequelize');
-
-
+const {config}= require('../../../config/config')
 const {
   listFiles,
   createPath,
   createDir,
   removeDir
 } = require('../../../controllers/fs/fsUtil');
-
 const moment = require('moment');
-
 const formatDate = 'YYYY-MM-DD-HH-MM-SS';
 const now = moment();
+
 
 class Collections {
   constructor() {
@@ -23,16 +21,12 @@ class Collections {
     this.stateOfCollection = 'Edition';
     this.pathOfCollection = [];
   }
-
-
-
   async find() {
     const rta = await models.Collection.findAll({
       include: ['garments'],
     });
     return rta;
   }
-
   async findOne({id}){
     const collection = await models.Collection.findByPk(id,{
       include:[
@@ -47,27 +41,21 @@ class Collections {
 
     return collection
   }
-
-
   async create({ item }) {
     try {
       const dateCreate = now.format(formatDate);
       const numberWeek = now.isoWeekday();
       const CollectionPath = `Coleccion--${numberWeek}--${dateCreate}`;
-      const routePath = await createDir(`./uploads/${CollectionPath}`);
+      const routePath = await createDir(`${config.pathOfFiles}${CollectionPath}`);
 
       const data = {
-        nameOfCollection: item.nameOfCollection | this.nameOfCollection,
-        dateOfPublication: this.dateOfPublication,
-        stateOfCollection: this.stateOfCollection,
-        pathOfCollection: item.pathOfCollection | routePath,
-        garmentsId: this.garmentsId,
-        collectionId: [],
+        nameOfCollection: (item.nameOfCollection? item.nameOfCollection :this.nameOfCollection),
+        dateOfPublication: (item.dateOfPublication? item.dateOfPublication:  this.dateOfPublication),
+        stateOfCollection: (item.stateOfCollection? item.stateOfCollection : this.stateOfCollection),
+        pathOfCollection:  (item.pathOfCollection?   item.pathOfCollection: await routePath   ) ,
+        garmentsId: (item.garmentsId? item.garmentsId: this.garmentsId),
       };
-
-      const result = models.Collection.create(data)
-
-
+      const result = await models.Collection.create(data)
       return result;
     } catch (error) {
       return error;
@@ -97,19 +85,34 @@ class Collections {
     return rta;
   }
 
-  async syncForFolders({path}){
-    const folderInPath = (await listFiles(path)).map(item =>  `${path}/${item}`)
+  async syncForFolders(){
 
-    const data = await (await this.find()).map(item =>   {
-      const path = item.dataValues.pathOfCollection
-      if (path == null) {
-        ''
+    const folderInPath = (await listFiles(config.pathOfFiles)).map(item =>  `${config.pathOfFiles}/${item}`)
+
+    const data = await (await this.find()).map(item =>  {
+    return item.dataValues.pathOfCollection })
+
+
+
+    const pathDataBase = []
+    for (let index = 0; index < folderInPath.length; index++) {
+      if (!data.includes(folderInPath[index])) {
+        pathDataBase.push(folderInPath[index])
+      }}
+
+      console.log(pathDataBase)
+      //console.log(data.filter(item=> { item? '' :item.include(`${config.pathOfFiles}`)  }  ))
+
+
+      for (let index = 0; index < pathDataBase.length; index++) {
+        this.create({item:{
+          pathOfCollection:pathDataBase[index]
+        }})
+
       }
-    }     )
 
-    const result =  data.filter(element => !folderInPath.includes(element != null) )
 
-    console.log( data )
+    //console.log("DATA",await data)
 
 
     //const rlt = folderInPath.forEach(listOfPath => {

@@ -1,7 +1,5 @@
 const { DataTypes, Sequelize, Model } = require('sequelize');
 
-const { COLLECTION_TABLE } = require('./collection.model');
-
 const GARMENTS_TABLE = 'garments';
 
 const GarmentsScheme = {

@@ -3,10 +3,7 @@ const { Product, ProductSchema } = require('./product.model');
 const { Customer, CustomerSchema } = require('./customer.model');
 const { Category, CategorySchema } = require('./category.model');
 const { Order, OrderSchema } = require('./order.model');
-const {
-  OrderProduct,
-  OrderProductScheme,
-} = require('./order-product.model.js');
+const { OrderProduct, OrderProductScheme} = require('./order-product.model.js');
 
 const { Collection, CollectionScheme } = require('./collection.model.js');
 const { Garments, GarmentsScheme } = require('./garments.model.js');

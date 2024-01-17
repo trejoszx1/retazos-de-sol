@@ -1,4 +1,4 @@
-
+const {config}= require('../../../config/config')
 
 const Collections = require('./collections.service')
 const Garments = require('./garments.service')
@@ -31,14 +31,22 @@ const database = async() =>{
   //const result = await models.Garments.create(data)
   //console.log('Resultado',result)
 
-  const id = 'db099a9c-7038-44c4-a790-761be7da0385'
+  const id = 'ffa51e83-f1e7-4855-a0ca-c0eaaf1da147'
+
+
+
 
   const collections = new Collections()
-  //await collections.create({item: {nameOfCollection:'Solsticio'}})
+  //await collections.create({item: {nameOfCollection:'navidad'}})
+
+  //- findOne
+  //const finded = await collections.findOne({id})
+  //console.log(finded.dataValues)
+
 
   //- syncForFolders -//
-  const folders = await collections.syncForFolders({path:'./uploads'})
-  console.log('Folder = ',folders)
+  //const folders = await collections.syncForFolders()
+  //console.log('Folder = ',folders)
 
 
   //- DELETE -//
@@ -58,8 +66,13 @@ const database = async() =>{
   //console.log(result1)
 
   //- CREATE -//
+  //const data = await collections.create({item: {CollectionPath:'./uploads'}})
   //const result = await models.Collection.create(data)
   //console.log('Resultado',result)
+
+  //- FINDALL - //
+  //const result = await models.Collection.findAll()
+  //console.log(result)
 }
 
 database()

@@ -8,6 +8,7 @@ const config = {
   dbHost: process.env.DB_HOST,
   dbName: process.env.DB_NAME,
   dbPort: process.env.DB_PORT,
+  pathOfFiles: process.env.PATH_OF_FILES || './uploads'
 }
 const confIns = {
   instagramUser : process.env.INSTAGRAM_USERNAME,
@@ -15,12 +16,8 @@ const confIns = {
 }
 const confNot = {
   notionK: process.env.NOTION_TOKEN,
-
-
   databaseIdProducts: process.env.NOTION_DATABASE_ID_PRODUCT_DEV,
   databaseIdPostInstagram: process.env.NOTION_DATABASE_ID_POST_INSTAGRAM,
-
-
 
 }
 
