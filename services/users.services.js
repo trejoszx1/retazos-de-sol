@@ -6,11 +6,7 @@ class UserService {
   constructor() {}
 
   async create(data) {
-    const hash = await bcrypt.hash(data.password,10)
-    const newUser = await models.User.create({
-      ...data,
-      password: hash,
-    });
+    const newUser = await models.User.create(data);
     delete newUser.dataValues.password
     return newUser;
   }

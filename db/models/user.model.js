@@ -79,7 +79,13 @@ class User extends Model {
       sequelize,
       tableName: USER_TABLE,
       modelName: 'User',
-      timestamps: true
+      timestamps: true,
+      hooks: {
+        beforeCreate: async (user, options) => {
+          const password = await bcrypt.hash(user.password, 10);
+          user.password = password;
+        },
+      }
     }
   }
 }
