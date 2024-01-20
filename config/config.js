@@ -8,7 +8,9 @@ const config = {
   dbHost: process.env.DB_HOST,
   dbName: process.env.DB_NAME,
   dbPort: process.env.DB_PORT,
-  pathOfFiles: process.env.PATH_OF_FILES || './uploads'
+  pathOfFiles: process.env.PATH_OF_FILES || './uploads',
+  apiKey: process.env.API_KEY,
+
 }
 const confIns = {
   instagramUser : process.env.INSTAGRAM_USERNAME,

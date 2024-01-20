@@ -2,8 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const routerApi = require('./router');
 const morgan = require('morgan');
-
-
+const {checkApiKey}= require('./middlewares/auth.handler')
 
 const { logErrors, errorHandler , boomErrorHandler} = require('./middlewares/error.handler');
 
@@ -16,7 +15,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(morgan("dev"));
 
-const whitelist = ['http://localhost:9000', 'https://mayapp.co', 'http://192.168.1.100:9000','http://localhost','http://192.168.1.137']; //abilita acceso de otros arigenes de cors
+const whitelist = ['http://localhost:9000', 'https://mayapp.co', 'http://192.168.1.100:9000','http://localhost','http://192.168.1.137','http://0.0.0.0','http://localhost:5173']; //abilita acceso de otros arigenes de cors
 const options = {
   origin: (origin, callback) => {
     if (whitelist.includes(origin) || !origin ) {
@@ -40,6 +39,12 @@ app.use(errorHandler);
 
 
 require("./controllers/orchestrator/index")
+
+
+app.get('/rutadeprueba',checkApiKey,(req,res)=>{
+  res.send('Esta es una ruta de prueba')
+})
+
 
 
 app.listen(port, () => {
