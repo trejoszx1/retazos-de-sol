@@ -14,7 +14,7 @@ services:
       - ./postgres_data:/var/lib/postgresql/data
     networks:
       red_interna:
-        ipv4_address: 172.25.0.6
+        ipv4_address: 172.20.0.6
 
   pgadmin:
     container_name: pgadmin
@@ -26,16 +26,16 @@ services:
       - 5050:80
     networks:
       red_interna:
-        ipv4_address: 172.25.0.5
+        ipv4_address: 172.20.0.5
       red_web:
-        ipv4_address: 172.26.0.2
+        ipv4_address: 172.121.0.2
 
 networks:
   red_web:
     ipam:
       config:
-        - subnet: 172.26.0.0/16
+        - subnet: 172.121.0.0/16
   red_interna:
     ipam:
       config:
-        - subnet: 172.25.0.0/16
+        - subnet: 172.20.0.0/16

@@ -18,7 +18,7 @@ const OrderSchema = {
   shippingValue: {
     field: 'shipping_value',
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   trunk: {
     type: DataTypes.BOOLEAN,

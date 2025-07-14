@@ -23,7 +23,7 @@ const result = notion.pages.create({
    ...parent(database_id),
    properties: {
      ...title({id:"title",text:body.name}),
-     ...multi_select({id:"Rg%5B%60"})
+     //...multi_select({id:"Rg%5B%60"})
    }
  })
 

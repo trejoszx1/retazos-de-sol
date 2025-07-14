@@ -4,7 +4,7 @@ const instagramRouter = require('./instagram.router');
 const postRouter = require('./post.router');
 const notionRouter = require('./notion.router')
 const collection = require('./collection.router.js')
-
+const documentService = require('./documents.router.js')
 const router = express.Router();
 
 
@@ -12,6 +12,7 @@ router.use('/public', postRouter);
 router.use('/instagram', instagramRouter);
 router.use('/notion', notionRouter)
 router.use('/collection',collection)
+router.use('/document-service',documentService)
 
 
 router.get('/', async (req,res ,next) =>{
@@ -19,5 +20,4 @@ router.get('/', async (req,res ,next) =>{
 })
 
 module.exports = router;
-
 

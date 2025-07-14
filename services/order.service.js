@@ -35,9 +35,38 @@ class OrderService {
     return order;
   }
 
+  async findByUser(userId){
+    const orders = await models.Order.findAll({
+      where:{
+        '$customer.user.id$':userId
+      },  //Consulta compleja
+      include: [
+        {
+          association:'customer',
+          include:['user'],
+        }
+      ]
+    });
+    return orders
+  }
 
   async create(data) {
-    const newOrder = await models.Order.create(data);
+    const customer = await models.Customer.findOne({
+      where:{
+        '$user.id$': data.userId
+      },
+      include:['user']
+    })
+    if(!customer){
+      throw boom.badRequest('Customer not found')
+    }
+
+    const newData ={
+      ...data,
+      customerId:customer.id
+    }
+    console.log(newData)
+    const newOrder = await models.Order.create(newData);
     return newOrder;
   }
 

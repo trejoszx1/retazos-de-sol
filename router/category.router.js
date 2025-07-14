@@ -6,23 +6,43 @@ const {
   getCategorySchema,
   updateCategorySchema,
 } = require('../schemas/category.schema');
+const passport = require('passport');
+const { checkRoles } = require('../middlewares/auth.handler');
 
 const router = express.Router();
 const service = new CategoryService();
 
-router.get('/',  async (req, res, next) => {
+router.get('/',
+passport.authenticate('jwt', { session: false }),
+  checkRoles('customer', 'admin','seller'),
+  async (req, res, next) => {
   try {
     res.json(await service.find());
   } catch (error) {
     next(error);
   }
 });
+router.get('/:id',
+passport.authenticate('jwt', { session: false }),
+  checkRoles('admin', 'customer','seller'),
+  async (req, res, next) => {
+  try {
+    const {id} = req.params
+    res.json(await service.findOne(id));
+  } catch (error) {
+    next(error);
+  }
+});
 
-router.post('/',
+router.post(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
   validationHandler(createCategorySchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
+      console.log(body);
       res.status(201).json(await service.create(body));
     } catch (error) {
       next(error);
@@ -30,8 +50,10 @@ router.post('/',
   }
 );
 
-router.patch('/:id',
-  validationHandler(getCategorySchema, 'params'),
+router.patch(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin', 'seller'),
   validationHandler(updateCategorySchema, 'body'),
   async (req, res, next) => {
     try {
@@ -44,12 +66,16 @@ router.patch('/:id',
   }
 );
 
-router.delete('/:id',
-  validationHandler(getCategorySchema, 'params'),
+router.delete(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin', 'seller'),
   async (req, res, next) => {
     try {
+      console.log(req.params)
       const { id } = req.params;
-      res.status(200).json(await service.delete(id));
+      await service.delete(id)
+      res.status(200).json({id});
     } catch (error) {
       next(error);
     }

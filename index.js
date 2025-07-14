@@ -15,7 +15,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(morgan("dev"));
 
-const whitelist = ['http://localhost:9000', 'https://mayapp.co', 'http://192.168.1.100:9000','http://localhost','http://192.168.1.137','http://0.0.0.0','http://localhost:5173']; //abilita acceso de otros arigenes de cors
+const whitelist = ['http://localhost:9000', 'https://mayapp.co', 'http://192.168.1.100:9000','http://localhost','http://192.168.1.137','http://0.0.0.0','http://localhost:5173','http://127.0.0.1','http://192.168.1.14',"http://192.168.1.128:9000/api/v1/auth/login","http://192.168.1.128","http://192.168.1.128:5173"]; //abilita acceso de otros arigenes de cors
 const options = {
   origin: (origin, callback) => {
     if (whitelist.includes(origin) || !origin ) {
@@ -27,6 +27,8 @@ const options = {
 }
 app.use(cors(options));  // Habilita cualquier origen
 
+
+require('./utils/auth')
 // Routers Import
 routerApi(app);
 

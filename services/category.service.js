@@ -6,9 +6,7 @@ class CategoryService {
   constructor() {}
 
   async find() {
-    const rta = await models.Category.findAll({
-      include: ['user']   //quiero resolver la relacion de User // para tener una resolber anidadamente {{}}
-    });
+    const rta = await models.Category.findAll();
     return rta;
   }
 
@@ -22,9 +20,7 @@ class CategoryService {
 
 
   async create(data) {
-    const newCustomer = await models.Category.create(data, {
-      include: ['product']
-    });
+    const newCustomer = await models.Category.create(data);
     return newCustomer;
   }
 
@@ -35,9 +31,15 @@ class CategoryService {
   }
 
   async delete(id) {
-    const model = await this.findOne(id);
-    await model.destroy();
-    return { rta: true };
+    try {
+      const model = await this.findOne(id);
+      const rst = await model.destroy();
+      console.log(rst)
+      return { rta: true };
+    } catch (error) {
+      console.log('Error',error)
+    }
+
   }
 
 }

@@ -11,19 +11,19 @@ const CategorySchema = {
   name: {
     type: DataTypes.STRING,
     unique: true,
-    allowNull: false,
+    allowNull: true,
   },
   image: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   description:{
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
   price: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   createAt: {
     allowNull: false,
