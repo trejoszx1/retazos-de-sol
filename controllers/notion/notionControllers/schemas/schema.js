@@ -52,20 +52,37 @@ const checkbox = ({ id, truOrFalse = false }) => {
   return array;
 };
 
+// const date = ({ id, dateStart, dateEnd = null }) => {
+//   if (id === undefined) {
+//     return '';
+//   }
+//   ({
+//     [id]: {
+//       type: 'date',
+//       date: {
+//         start: dateStart,
+//         end: dateEnd,
+//       },
+//     },
+//   });
+// };
+
+
+
 const date = ({ id, dateStart, dateEnd = null }) => {
   if (id === undefined) {
     return '';
   }
-  ({
+  return {
     [id]: {
-      type: 'date',
       date: {
         start: dateStart,
         end: dateEnd,
       },
     },
-  });
+  };
 };
+
 
 const multi_select = ({id,})=> {
   if (id === undefined) {
@@ -81,4 +98,20 @@ const multi_select = ({id,})=> {
   });
 };
 
-module.exports = { parent, title, text, checkbox, date,multi_select };
+const image = ({ id, path }) => {
+  if (id === undefined) {
+    return '';
+  }
+  return {
+    [id]: {
+     // "object": "block",
+      type: 'image',
+      image: {
+        "type": "file",
+        "name": path,
+      },
+    },
+  };
+};
+
+module.exports = { image,parent, title, text, checkbox, date,multi_select };

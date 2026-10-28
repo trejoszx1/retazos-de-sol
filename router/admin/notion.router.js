@@ -57,9 +57,9 @@ router.get('/', async (req, res, next) => {
 
 router.post(
   '/',
-  validatorHandler(createProductSchema, 'body'),
+  //validatorHandler(createProductSchema, 'body'),
   async (req, res, next) => {
-    const notionServices = new NotionServices({ tipeDB: 'PostInsta' });
+    const notionServices = new NotionServices({ tipeDB: 'Products' });
     try {
       const result = await notionServices.createInDatabase(req.body);
       res.status(201).json(result);
